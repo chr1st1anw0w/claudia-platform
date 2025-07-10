@@ -32,3 +32,4 @@ temp_lib/
 AGENTS.md
 CLAUDE.md
 *_TASK.md
+.env
