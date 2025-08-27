@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claudia 平台工作流程圖</title>
+    <link rel="stylesheet" href="workflow-diagram.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="workflow-container">
+        <h1 class="workflow-title">Claudia 平台工作流程圖</h1>
+        <p class="workflow-subtitle">
+            基於 React+TypeScript 前端與 Rust+Tauri 後端架構<br>
+            展示專案管理、代理系統、快照管理等核心功能流程
+        </p>
+        
+        <div class="mermaid-container">
+            <div class="mermaid">
+graph TD
+    A[啟動 Claudia 平台] --> B{選擇工作模式}
+    
+    B -->|專案管理| C[CC 專案模式]
+    B -->|代理系統| D[CC 代理模式]
+    
+    %% 專案管理流程
+    C --> E[瀏覽專案目錄<br/>~/.claude/projects/]
+    E --> F[選擇專案]
+    F --> G[查看會話歷史]
+    G --> H{會話操作}
+    H -->|恢復會話| I[載入現有會話]
+    H -->|新建會話| J[開始新會話]
+    
+    %% 快照系統流程
+    I --> K[會話快照系統]
+    J --> K
+    K --> L{快照操作}
+    L -->|建立快照| M[選擇快照類型]
+    M --> N[🏆 里程碑<br/>💾 備份<br/>🧪 實驗<br/>🔧 修復]
+    N --> O[添加描述與標籤]
+    O --> P[儲存快照]
+    
+    L -->|比較差異| Q[選擇兩個快照]
+    Q --> R[視覺化差異比對]
+    R --> S[檔案級別變更<br/>行級別差異<br/>視覺化標示]
+    
+    L -->|管理快照| T[搜尋與篩選]
+    T --> U[匯出/刪除/查看]
+    
+    %% 代理系統流程
+    D --> V[代理程式庫]
+    V --> W{代理操作}
+    W -->|建立代理| X[設計代理]
+    X --> Y[配置名稱與圖示]
+    Y --> Z[設定系統提示]
+    Z --> AA[選擇 Claude 模型]
+    AA --> BB[配置權限]
+    BB --> CC[儲存代理]
+    
+    W -->|執行代理| DD[選擇代理]
+    DD --> EE[選擇目標專案]
+    EE --> FF[背景執行]
+    FF --> GG[監控執行狀態]
+    GG --> HH[查看執行歷史]
+    
+    %% MCP 伺服器管理
+    P --> II[MCP 伺服器管理]
+    CC --> II
+    II --> JJ{伺服器操作}
+    JJ -->|新增伺服器| KK[手動配置<br/>或 JSON 匯入]
+    JJ -->|匯入配置| LL[從 Claude Desktop 匯入]
+    JJ -->|測試連線| MM[驗證伺服器連線]
+    
+    %% 使用分析
+    HH --> NN[使用分析儀表板]
+    MM --> NN
+    NN --> OO[成本追蹤<br/>Token 分析<br/>視覺化圖表]
+    OO --> PP[資料匯出]
+    
+    %% CLAUDE.md 管理
+    U --> QQ[CLAUDE.md 管理]
+    PP --> QQ
+    QQ --> RR[內建編輯器<br/>即時預覽<br/>專案掃描]
+    
+    %% 樣式定義
+    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000
+    classDef process fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef snapshot fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000
+    classDef agent fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    classDef mcp fill:#f1f8e9,stroke:#558b2f,stroke-width:2px,color:#000
+    classDef analysis fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+    
+    class A,RR startEnd
+    class C,D,E,F,G,I,J,V,X,Y,Z,AA,BB,CC,DD,EE,FF,GG,HH,II,KK,LL,MM,NN,OO,PP,QQ process
+    class B,H,L,W,JJ decision
+    class K,M,N,O,P,Q,R,S,T,U snapshot
+    class agent
+    class mcp
+    class analysis
+            </div>
+        </div>
+        
+        <div class="workflow-legend">
+            <h3 class="legend-title">圖例說明 | Legend</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color color-start-end"></div>
+                    <span class="legend-text">開始/結束節點</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-process"></div>
+                    <span class="legend-text">處理流程</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-decision"></div>
+                    <span class="legend-text">決策點</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-snapshot"></div>
+                    <span class="legend-text">快照系統</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-agent"></div>
+                    <span class="legend-text">代理系統</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-mcp"></div>
+                    <span class="legend-text">MCP 伺服器</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color color-analysis"></div>
+                    <span class="legend-text">分析功能</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化 Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            themeVariables: {
+                fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
+                fontSize: '14px',
+                primaryColor: '#f3e5f5',
+                primaryTextColor: '#000',
+                primaryBorderColor: '#4a148c',
+                lineColor: '#34495e',
+                secondaryColor: '#e1f5fe',
+                tertiaryColor: '#fff3e0'
+            }
+        });
+
+        // 響應式調整
+        function adjustDiagramSize() {
+            const container = document.querySelector('.mermaid-container');
+            const diagram = document.querySelector('.mermaid svg');
+            
+            if (diagram && container) {
+                const containerWidth = container.clientWidth - 60; // 減去 padding
+                diagram.style.maxWidth = containerWidth + 'px';
+                diagram.style.height = 'auto';
+            }
+        }
+
+        // 頁面載入完成後調整大小
+        window.addEventListener('load', adjustDiagramSize);
+        window.addEventListener('resize', adjustDiagramSize);
+
+        // 深色模式切換 (可選功能)
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+</html>

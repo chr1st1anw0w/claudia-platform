@@ -1,0 +1,66 @@
+{
+  "welcome": "Welcome to Claudia",
+  "description": {
+    "part1": "This is the beginning of a great journey.",
+    "part2": "Let's build something amazing together."
+  },
+  "navigation": {
+    "agents": "CC Agents",
+    "projects": "CC Projects",
+    "tasks": "Task Management",
+    "settings": "Settings",
+    "usage": "Usage Analytics",
+    "mcp": "MCP Manager"
+  },
+  "common": {
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "loading": "Loading..."
+  },
+  "tasks": {
+    "title": "Task Management",
+    "description": "Manage your project tasks and todos",
+    "addTask": "Add Task",
+    "editTask": "Edit Task",
+    "taskTitle": "Task Title",
+    "taskDescription": "Task Description (Optional)",
+    "priority": "Priority",
+    "category": "Category",
+    "dueDate": "Due Date",
+    "tags": "Tags",
+    "completed": "Completed",
+    "pending": "Pending",
+    "overdue": "Overdue",
+    "noTasks": "No tasks yet, add one now!",
+    "noResults": "No matching tasks found",
+    "priorities": {
+      "low": "Low Priority",
+      "medium": "Medium Priority",
+      "high": "High Priority",
+      "urgent": "Urgent"
+    },
+    "categories": {
+      "development": "Development",
+      "design": "Design",
+      "testing": "Testing",
+      "documentation": "Documentation",
+      "meeting": "Meeting",
+      "review": "Review",
+      "deployment": "Deployment",
+      "research": "Research"
+    },
+    "filters": {
+      "showCompleted": "Show Completed",
+      "hideCompleted": "Hide Completed",
+      "allCategories": "All Categories",
+      "allPriorities": "All Priorities"
+    }
+  }
+}

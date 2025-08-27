@@ -1,8 +1,27 @@
 {
   "name": "claudia",
   "private": true,
-  "version": "0.1.0",
+  "version": "2.0.0",
+  "description": "強大的 Claude Code GUI 應用程式與工具包 - 支援任務管理、多語言、會話快照等功能",
   "type": "module",
+  "homepage": "https://claudiacode.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chr1st1anw0w/claudia-platform.git"
+  },
+  "author": "Christian Wu <christianwu@example.com>",
+  "license": "AGPL-3.0",
+  "keywords": [
+    "claude",
+    "ai",
+    "assistant",
+    "gui",
+    "task-management",
+    "i18n",
+    "react",
+    "typescript",
+    "vite"
+  ],
   "scripts": {
     "predev": "bun run build:executables:current",
     "dev": "vite",
@@ -14,7 +33,10 @@
     "build:executables:macos": "bun run scripts/fetch-and-build.js macos --version=1.0.41",
     "build:executables:windows": "bun run scripts/fetch-and-build.js windows --version=1.0.41",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "deploy": "bun run build && bun run preview",
+    "serve": "vite preview --port 4173 --host",
+    "lint": "bunx @typescript-eslint/eslint-plugin",
+    "type-check": "bunx tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -29,6 +51,7 @@
     "@radix-ui/react-toast": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.1.5",
     "@tailwindcss/cli": "^4.1.8",
+    "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.8",
     "@tanstack/react-virtual": "^3.13.10",
     "@tauri-apps/api": "^2.1.1",
@@ -46,10 +69,14 @@
     "diff": "^8.0.2",
     "framer-motion": "^12.0.0-alpha.1",
     "html2canvas": "^1.4.1",
+    "i18next": "^25.3.2",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
+    "react-i18next": "^15.6.0",
     "react-markdown": "^9.0.3",
     "react-syntax-highlighter": "^15.6.1",
     "recharts": "^2.14.1",
@@ -72,5 +99,9 @@
   "trustedDependencies": [
     "@parcel/watcher",
     "@tailwindcss/oxide"
-  ]
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  }
 }

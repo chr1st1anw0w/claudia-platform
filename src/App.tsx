@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Loader2, Bot, FolderCode } from "lucide-react";
+import { Plus, Loader2, Bot, FolderCode, CheckSquare } from "lucide-react";
 import { api, type Project, type Session, type ClaudeMdFile } from "@/lib/api";
 import { OutputCacheProvider } from "@/lib/outputCache";
 import { Button } from "@/components/ui/button";
@@ -18,14 +19,16 @@ import { UsageDashboard } from "@/components/UsageDashboard";
 import { MCPManager } from "@/components/MCPManager";
 import { NFOCredits } from "@/components/NFOCredits";
 import { ClaudeBinaryDialog } from "@/components/ClaudeBinaryDialog";
+import { TodoTasksList } from "@/components/TodoTasksList";
 import { Toast, ToastContainer } from "@/components/ui/toast";
 
-type View = "welcome" | "projects" | "agents" | "editor" | "settings" | "claude-file-editor" | "claude-code-session" | "usage-dashboard" | "mcp";
+type View = "welcome" | "projects" | "agents" | "editor" | "settings" | "claude-file-editor" | "claude-code-session" | "usage-dashboard" | "mcp" | "todos";
 
 /**
  * Main App component - Manages the Claude directory browser UI
  */
 function App() {
+  const { t } = useTranslation();
   const [view, setView] = useState<View>("welcome");
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -172,12 +175,13 @@ function App() {
               >
                 <h1 className="text-4xl font-bold tracking-tight">
                   <span className="rotating-symbol"></span>
-                  Welcome to Claudia
+                  {t('welcome')}
                 </h1>
+                <p className="mt-4 text-lg text-muted-foreground">{t('description.part1')}</p>
               </motion.div>
 
               {/* Navigation Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 {/* CC Agents Card */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -185,12 +189,15 @@ function App() {
                   transition={{ duration: 0.5, delay: 0.1 }}
                 >
                   <Card 
-                    className="h-64 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg border border-border/50 shimmer-hover trailing-border"
+                    className="h-48 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg border border-border/50 shimmer-hover trailing-border"
                     onClick={() => handleViewChange("agents")}
                   >
-                    <div className="h-full flex flex-col items-center justify-center p-8">
-                      <Bot className="h-16 w-16 mb-4 text-primary" />
-                      <h2 className="text-xl font-semibold">CC Agents</h2>
+                    <div className="h-full flex flex-col items-center justify-center p-6">
+                      <Bot className="h-12 w-12 mb-3 text-primary" />
+                      <h2 className="text-lg font-semibold">CC Agents</h2>
+                      <p className="text-sm text-muted-foreground text-center mt-1">
+                        {t('Manage AI agents', '管理 AI 代理程式')}
+                      </p>
                     </div>
                   </Card>
                 </motion.div>
@@ -202,12 +209,35 @@ function App() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
                   <Card 
-                    className="h-64 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg border border-border/50 shimmer-hover trailing-border"
+                    className="h-48 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg border border-border/50 shimmer-hover trailing-border"
                     onClick={() => handleViewChange("projects")}
                   >
-                    <div className="h-full flex flex-col items-center justify-center p-8">
-                      <FolderCode className="h-16 w-16 mb-4 text-primary" />
-                      <h2 className="text-xl font-semibold">CC Projects</h2>
+                    <div className="h-full flex flex-col items-center justify-center p-6">
+                      <FolderCode className="h-12 w-12 mb-3 text-primary" />
+                      <h2 className="text-lg font-semibold">CC Projects</h2>
+                      <p className="text-sm text-muted-foreground text-center mt-1">
+                        {t('Browse your projects', '瀏覽您的專案')}
+                      </p>
+                    </div>
+                  </Card>
+                </motion.div>
+
+                {/* Task Management Card */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <Card 
+                    className="h-48 cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg border border-border/50 shimmer-hover trailing-border"
+                    onClick={() => handleViewChange("todos")}
+                  >
+                    <div className="h-full flex flex-col items-center justify-center p-6">
+                      <CheckSquare className="h-12 w-12 mb-3 text-primary" />
+                      <h2 className="text-lg font-semibold">{t('Task Management', '任務管理')}</h2>
+                      <p className="text-sm text-muted-foreground text-center mt-1">
+                        {t('Manage your todos', '管理您的待辦事項')}
+                      </p>
                     </div>
                   </Card>
                 </motion.div>
@@ -381,6 +411,32 @@ function App() {
       case "mcp":
         return (
           <MCPManager onBack={() => handleViewChange("welcome")} />
+        );
+      
+      case "todos":
+        return (
+          <div className="flex-1 flex flex-col p-6">
+            <div className="mb-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleViewChange("welcome")}
+                className="mb-4"
+              >
+                ← {t('Back to Home', '返回首頁')}
+              </Button>
+              <h1 className="text-3xl font-bold tracking-tight">
+                {t('Task Management', '任務管理')}
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                {t('Manage your project tasks and todos', '管理您的專案任務和待辦事項')}
+              </p>
+            </div>
+            <TodoTasksList 
+              projectId={selectedProject?.id} 
+              className="flex-1"
+            />
+          </div>
         );
       
       default:

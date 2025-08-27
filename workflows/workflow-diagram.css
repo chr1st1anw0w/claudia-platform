@@ -1,0 +1,232 @@
+/* Claudia 平台工作流程圖樣式 */
+
+/* 基礎容器樣式 */
+.workflow-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 標題樣式 */
+.workflow-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.workflow-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* Mermaid 圖表容器 */
+.mermaid-container {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  min-height: 600px;
+}
+
+/* Mermaid 圖表樣式覆蓋 */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+}
+
+/* 節點樣式自定義 */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+  stroke-width: 2px;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* 連接線樣式 */
+.mermaid .edgePath path {
+  stroke-width: 2px;
+  stroke: #34495e;
+  fill: none;
+}
+
+.mermaid .edgeLabel {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* 箭頭樣式 */
+.mermaid .arrowheadPath {
+  fill: #34495e;
+  stroke: #34495e;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .workflow-container {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  .workflow-title {
+    font-size: 2rem;
+  }
+  
+  .workflow-subtitle {
+    font-size: 1rem;
+  }
+  
+  .mermaid-container {
+    padding: 20px;
+    overflow-x: scroll;
+  }
+}
+
+@media (max-width: 480px) {
+  .workflow-title {
+    font-size: 1.5rem;
+  }
+  
+  .workflow-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .mermaid-container {
+    padding: 15px;
+  }
+}
+
+/* 圖例樣式 */
+.workflow-legend {
+  margin-top: 30px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  border-left: 4px solid #3498db;
+}
+
+.legend-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid #34495e;
+}
+
+.legend-text {
+  font-size: 0.9rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+/* 顏色定義 */
+.color-start-end { background-color: #e1f5fe; }
+.color-process { background-color: #f3e5f5; }
+.color-decision { background-color: #fff3e0; }
+.color-snapshot { background-color: #e8f5e8; }
+.color-agent { background-color: #fce4ec; }
+.color-mcp { background-color: #f1f8e9; }
+.color-analysis { background-color: #e3f2fd; }
+
+/* 互動效果 */
+.workflow-container:hover .mermaid .node {
+  transition: all 0.3s ease;
+}
+
+.mermaid .node:hover rect,
+.mermaid .node:hover circle,
+.mermaid .node:hover ellipse,
+.mermaid .node:hover polygon {
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.2));
+  transform: scale(1.02);
+}
+
+/* 列印樣式 */
+@media print {
+  .workflow-container {
+    background: white;
+    box-shadow: none;
+    padding: 0;
+  }
+  
+  .mermaid-container {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* 深色模式支援 */
+@media (prefers-color-scheme: dark) {
+  .workflow-container {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: #ecf0f1;
+  }
+  
+  .workflow-title {
+    color: #ecf0f1;
+  }
+  
+  .workflow-subtitle {
+    color: #bdc3c7;
+  }
+  
+  .mermaid-container {
+    background: #34495e;
+  }
+  
+  .workflow-legend {
+    background: rgba(52, 73, 94, 0.9);
+    border-left-color: #3498db;
+  }
+  
+  .legend-title {
+    color: #ecf0f1;
+  }
+  
+  .legend-text {
+    color: #ecf0f1;
+  }
+  
+  .legend-item {
+    background: rgba(44, 62, 80, 0.7);
+  }
+}

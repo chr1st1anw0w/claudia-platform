@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Circle, FileText, Settings, ExternalLink, BarChart3, Network, Info } from "lucide-react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Button } from "@/components/ui/button";
 import { Popover } from "@/components/ui/popover";
 import { api, type ClaudeVersionStatus } from "@/lib/api";
@@ -212,6 +213,8 @@ export const Topbar: React.FC<TopbarProps> = ({
           <Settings className="mr-2 h-3 w-3" />
           Settings
         </Button>
+
+        <LanguageSwitcher />
         
         <Button
           variant="ghost"
@@ -225,4 +228,4 @@ export const Topbar: React.FC<TopbarProps> = ({
       </div>
     </motion.div>
   );
-}; 
+};

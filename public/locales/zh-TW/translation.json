@@ -1,0 +1,66 @@
+{
+  "welcome": "歡迎使用 Claudia",
+  "description": {
+    "part1": "這是一個偉大旅程的開始。",
+    "part2": "讓我們一起創造非凡。"
+  },
+  "navigation": {
+    "agents": "CC 代理程式",
+    "projects": "CC 專案",
+    "tasks": "任務管理",
+    "settings": "設定",
+    "usage": "使用分析",
+    "mcp": "MCP 管理"
+  },
+  "common": {
+    "back": "返回",
+    "save": "儲存",
+    "cancel": "取消",
+    "delete": "刪除",
+    "edit": "編輯",
+    "add": "新增",
+    "search": "搜尋",
+    "filter": "篩選",
+    "all": "全部",
+    "loading": "載入中..."
+  },
+  "tasks": {
+    "title": "任務管理",
+    "description": "管理您的專案任務和待辦事項",
+    "addTask": "新增任務",
+    "editTask": "編輯任務",
+    "taskTitle": "任務標題",
+    "taskDescription": "任務描述（選填）",
+    "priority": "優先級",
+    "category": "分類",
+    "dueDate": "到期日",
+    "tags": "標籤",
+    "completed": "已完成",
+    "pending": "進行中",
+    "overdue": "已逾期",
+    "noTasks": "還沒有任務，立即新增一個吧！",
+    "noResults": "沒有符合條件的任務",
+    "priorities": {
+      "low": "低優先級",
+      "medium": "中優先級", 
+      "high": "高優先級",
+      "urgent": "緊急"
+    },
+    "categories": {
+      "development": "開發",
+      "design": "設計",
+      "testing": "測試",
+      "documentation": "文件",
+      "meeting": "會議",
+      "review": "審查",
+      "deployment": "部署",
+      "research": "研究"
+    },
+    "filters": {
+      "showCompleted": "顯示已完成",
+      "hideCompleted": "隱藏已完成",
+      "allCategories": "所有分類",
+      "allPriorities": "所有優先級"
+    }
+  }
+}
