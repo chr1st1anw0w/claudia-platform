@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Plus, 
@@ -8,7 +9,8 @@ import {
   ChevronUp,
   Filter,
   Search,
-  Archive
+  Archive,
+  Pencil
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -87,11 +89,14 @@ const priorityLabels = {
  * - 本地存儲持久化
  */
 export function TodoTasksList({ projectId, className }: TodoTasksListProps) {
+  const { t } = useTranslation();
   const [tasks, setTasks] = useState<TodoTask[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [showCompleted, setShowCompleted] = useState(true);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState<TodoTask | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   // 新任務表單狀態
   const [newTask, setNewTask] = useState({
@@ -178,15 +183,26 @@ export function TodoTasksList({ projectId, className }: TodoTasksListProps) {
     saveTasks(updatedTasks);
   };
 
-  // Unused for now but can be used for editing functionality
-  // const updateTask = (updatedTask: TodoTask) => {
-  //   const updatedTasks = tasks.map(task =>
-  //     task.id === updatedTask.id 
-  //       ? { ...updatedTask, updatedAt: new Date() }
-  //       : task
-  //   );
-  //   saveTasks(updatedTasks);
-  // };
+  const updateTask = (updatedTask: TodoTask) => {
+    const updatedTasks = tasks.map(task =>
+      task.id === updatedTask.id
+        ? { ...updatedTask, updatedAt: new Date() }
+        : task
+    );
+    saveTasks(updatedTasks);
+  };
+
+  const handleEditClick = (task: TodoTask) => {
+    setEditingTask({ ...task });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateTask = () => {
+    if (!editingTask) return;
+    updateTask(editingTask);
+    setIsEditDialogOpen(false);
+    setEditingTask(null);
+  };
 
   // 篩選任務
   const filteredTasks = tasks.filter(task => {
@@ -343,6 +359,69 @@ export function TodoTasksList({ projectId, className }: TodoTasksListProps) {
         </div>
       </div>
 
+      {/* Edit Task Dialog */}
+      {editingTask && (
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t('tasks.editTask')}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <Input
+                placeholder={t('tasks.taskTitle')}
+                value={editingTask.title}
+                onChange={(e) => setEditingTask({ ...editingTask, title: e.target.value })}
+              />
+              <Textarea
+                placeholder={t('tasks.taskDescription')}
+                value={editingTask.description || ''}
+                onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })}
+              />
+              <div className="grid grid-cols-2 gap-4">
+                <Select
+                  value={editingTask.priority}
+                  onValueChange={(value: TodoTask['priority']) => setEditingTask({ ...editingTask, priority: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t('tasks.priority')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">{t('tasks.priorities.low')}</SelectItem>
+                    <SelectItem value="medium">{t('tasks.priorities.medium')}</SelectItem>
+                    <SelectItem value="high">{t('tasks.priorities.high')}</SelectItem>
+                    <SelectItem value="urgent">{t('tasks.priorities.urgent')}</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={editingTask.category}
+                  onValueChange={(value) => setEditingTask({ ...editingTask, category: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={t('tasks.category')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {defaultCategories.map(cat => (
+                      <SelectItem key={cat} value={cat}>{t(`tasks.categories.${cat}`)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Input
+                type="date"
+                value={editingTask.dueDate ? new Date(editingTask.dueDate).toISOString().split('T')[0] : ''}
+                onChange={(e) => setEditingTask({ ...editingTask, dueDate: e.target.value ? new Date(e.target.value) : undefined })}
+              />
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => { setIsEditDialogOpen(false); setEditingTask(null); }}>
+                  {t('common.cancel')}
+                </Button>
+                <Button onClick={handleUpdateTask}>{t('common.saveChanges')}</Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
       {/* 任務列表 */}
       <div className="space-y-2">
         <AnimatePresence>
@@ -399,6 +478,13 @@ export function TodoTasksList({ projectId, className }: TodoTasksListProps) {
                     
                     {/* 操作按鈕 */}
                     <div className="flex justify-end space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEditClick(task)}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
                       <Button
                         variant="ghost"
                         size="sm"
